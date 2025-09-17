@@ -31,7 +31,7 @@ $ npm run generate
 
 ## Project link
 
-https://stik-murex.vercel.app/
+https://saa-soft-q19y.vercel.app/
 
 ### Contacts for communication on all issues
 
