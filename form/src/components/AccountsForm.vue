@@ -8,26 +8,16 @@ const { accounts } = storeToRefs(store);
 function addAccount() {
 	store.addAccount();
 }
-
 function removeAccount(id: number) {
 	store.removeAccount(id);
 }
 
-function updateField(id: number, field: string, value: any) {
-	store.updateField(id, field as any, value);
+function labelsToString(labels: { text: string }[]) {
+	return labels.map((l) => l.text).join("; ");
 }
-
-accounts.value.forEach((acc) => {
-	Object.defineProperty(acc, "_labels", {
-		get() {
-			return acc.labels.map((l) => l.text).join("; ");
-		},
-		set(val: string) {
-			store.updateField(acc.id, "labels", val);
-		},
-	});
-});
-
+function onLabelsInput(id: number, val: string) {
+	store.updateField(id, "labels", val as any);
+}
 </script>
 
 <template>
@@ -46,16 +36,15 @@ accounts.value.forEach((acc) => {
 				<el-input
 					class="label"
 					placeholder="Метки (через ;)"
-					v-model="account._labels"
+					:model-value="labelsToString(account.labels)"
+					@update:model-value="onLabelsInput(account.id, $event)"
 					:class="{ error: account.errors.labels }"
 				/>
 
 				<el-select
-					:model-value="account.type"
+					v-model="account.type"
 					class="label"
 					placeholder="Тип записи"
-					@change="updateField(account.id, 'type', $event)"
-					style="width: 450px"
 				>
 					<el-option class="option" label="Локальная" value="Локальная" />
 					<el-option class="option" label="LDAP" value="LDAP" />
@@ -104,9 +93,6 @@ accounts.value.forEach((acc) => {
 	margin-top: 10px;
 	color: #666;
 }
-.error :deep(.el-input__wrapper) {
-	border: 1px solid red !important;
-}
 
 .label {
 	color: #1e2126;
@@ -138,5 +124,9 @@ accounts.value.forEach((acc) => {
 	font-weight: 400;
 	line-height: 120%;
 	letter-spacing: 0.7px;
+}
+
+.el-select__wrapper {
+	width: 180px !important;
 }
 </style>

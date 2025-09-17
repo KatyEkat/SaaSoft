@@ -3,7 +3,7 @@
 Accounts Manager (Vue 3 + TypeScript + Pinia + Element Plus)
 
 
-## 📌 Стек технологий
+## Stack
 - [Vue 3] + Composition API
 - [TypeScript]
 - [Pinia] — state manager
